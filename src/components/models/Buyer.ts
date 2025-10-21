@@ -1,4 +1,6 @@
 import { IBuyer, IValidationErrors, TPayment } from '../../types/index';
+import { IEvents } from '../base/Events';
+import { AppEvents } from '../../utils/constants';
 
 export class Buyer {
   private data: Partial<IBuyer> = {};
@@ -75,5 +77,39 @@ export class Buyer {
       isValid: !validation.errors[field],
       error: validation.errors[field],
     };
+  }
+}
+
+export class EventsBuyer extends Buyer {
+  constructor(private events: IEvents) {
+    super();
+  }
+
+  // Сохранение только адреса и отправка сообщения
+  setAddress(address: string): void {
+    super.setAddress(address);
+    const validationErrors: IValidationErrors = { address };
+    this.events.emit(AppEvents.buyer_changed, validationErrors);
+  }
+
+  // Сохранение только email и отправка сообщения
+  setEmail(email: string): void {
+    super.setEmail(email);
+    const validationErrors: IValidationErrors = { email };
+    this.events.emit(AppEvents.buyer_changed, validationErrors);
+  }
+
+  // Сохранение только телефона и отправка сообщения
+  setPhone(phone: string): void {
+    super.setPhone(phone);
+    const validationErrors: IValidationErrors = { phone };
+    this.events.emit(AppEvents.buyer_changed, validationErrors);
+  }
+
+  // Сохранение только способа оплаты и отправка сообщения
+  setPayment(payment: TPayment): void {
+    super.setPayment(payment);
+    const validationErrors: IValidationErrors = { payment };
+    this.events.emit(AppEvents.buyer_changed, validationErrors);
   }
 }

@@ -199,3 +199,225 @@ address: string;
 Методы класса:
 - `getProductList(): Promise<IProduct[]>` - получает список товаров с сервера.
 - `submitOrder(orderData: TOrder): Promise<TOrder>` - отправляет данные заказа на сервер.
+
+### Cлой представления View
+
+#### Класс Header
+Отображает корзину со счётчиком. Хранит данные о количестве товаров в корзине.
+
+Конструктор:
+`constructor(protected events: IEvents, container: HTMLElement)` - создает экземпляр Header, принимает эмиттер событий и контейнер DOM. Инициализирует элементы кнопки корзины и счетчика.
+
+Поля:
+`basketCounter: HTMLElement` - элемент отображения количества товаров в корзине.
+`basketButton: HTMLButtonElement` - кнопка открытия модального окна корзины.
+
+Методы класса:
+`set counter(value: number)` - устанавливает количество товаров в корзине для отображения.
+
+#### Класс Gallery
+Класс для отображения галереи товаров.
+
+Конструктор:
+`constructor(container: HTMLElement)` - создает экземпляр галереи
+
+Методы класса:
+`set catalog(item: HTMLElement)` - добавляет элемент товара в галерею
+`clear()` - полностью очищает содержимое галереи
+
+#### Класс Modal
+Компонент модального окна для отображения различного контента.
+
+Конструктор:
+`constructor(events: IEvents, container: HTMLElement)` - создает экземпляр модального окна
+
+Поля класса:
+`modalContent: HTMLElement` - контейнер для содержимого модального окна
+`buttonClose: HTMLButtonElement` - кнопка закрытия модального окна
+
+Методы класса:
+`set content(item: HTMLElement)` - добавляет содержимое в модальное окно
+`clear()` - очищает содержимое модального окна
+
+Генерируемые события:
+`modal:close` - при клике на кнопку закрытия или вне модального окна
+
+#### Класс OrderSuccess
+Компонент для отображения успешного оформления заказа.
+
+Конструктор:
+`constructor(events: IEvents, container: HTMLElement)` - создает экземпляр окна успешного заказа
+
+Поля класса:
+`buttonClose: HTMLButtonElement` - кнопка закрытия окна успешного заказа
+`cost: HTMLElement` - элемент отображения суммы списания
+
+Методы класса:
+`set totalCost(value: number)` - устанавливает сумму списания в окне успешного заказа
+
+Генерируемые события:
+`modal:close` - при клике на кнопку закрытия
+
+#### Класс Card
+Базовый класс карточки товара.
+
+Конструктор:
+`constructor(events: IEvents, protected container: HTMLElement)` - создает экземпляр карточки товара, принимает эмиттер событий и контейнер DOM. Инициализирует DOM-элементы карточки.
+
+Поля класса:
+`price: number` - цена товара.
+`title: string` - название товара.
+
+Методы класса:
+`set price(value: number)` - устанавливает цену товара.
+`set title(value: string)` - устанавливает название товара.
+
+#### Класс GalleryCard extends Card
+Карточка товара для отображения в галерее с изображением и категорией.
+
+Конструктор:
+`constructor(container: HTMLElement, action?: ICardAction)` - создает экземпляр карточки галереи
+
+Поля класса:
+`category: HTMLElement` - элемент отображения категории товара
+`image: HTMLImageElement` - изображение товара
+
+Методы класса:
+`set category(value: string)` - устанавливает категорию товара.
+`set image(value: string)` - устанавливает изображение товара. 
+
+#### Класс CardFull extends Card
+Карточка товара с полной информацией о товаре.
+
+Конструктор:
+`constructor(container: HTMLElement, action?: ICardAction)` - создает экземпляр полной карточки товара
+
+Поля класса:
+`buttonBuy: HTMLButtonElement` - кнопка Купить или Удалить
+`categoryCard: HTMLElement` - элемент отображения категории товара
+`description: HTMLElement` - элемент описания товара
+`imageElement: HTMLImageElement` - изображение товара
+
+Методы:
+`set category(value: string)` - устанавливает категорию товара
+`set image(value: string)` - устанавливает изображение товара 
+`set description(value: string)` - устанавливает описание товара
+`deactivationButton()` - деактивирует кнопку и меняет текст на "Недоступно"
+`set nameButton(value: string)` - устанавливает текст кнопки действия
+
+#### Класс CardBasket extends Card
+Карточка товара для отображения в корзине с кнопкой для удаления.
+
+Конструктор:
+`constructor(container: HTMLElement, action?: ICardAction)` - создает экземпляр карточки корзины
+
+Поля класса:
+`index: HTMLElement` - элемент отображения порядкового номера товара
+`buttonDelCard: HTMLButtonElement` - кнопка удаления товара из корзины
+
+Методы класса:
+`set updateIndexCard(value: number)` - устанавливает порядковый номер товара в корзине
+
+#### Класс Basket
+Управляет отображением и поведением корзины товаров.
+
+Конструктор:
+`constructor(events: IEvents, container: HTMLElement)` - создает экземпляр корзины. Инициализирует элементы управления и обработчики событий
+
+Поля класса:
+`buttonExecute: HTMLButtonElement` - кнопка оформления заказа
+`itemsBasket: HTMLElement` - контейнер списка товаров в корзине
+`cost: HTMLElement` - элемент отображения общей стоимости товаров
+
+Методы класса:
+`set totalCost(value: number)` - устанавливает общую стоимость товаров.
+`set contentItems(item: HTMLElement)` - добавляет товар в список корзины.
+`clear()` - очищает список товаров в корзине
+`set deactivationButton(value: boolean)` - активирует или деактивирует кнопку оформления заказа
+
+События:
+Генерирует `basket:making_order` при клике на кнопку оформления заказа
+
+#### Класс FormOrder
+Базовый класс для форм заказа.
+
+Конструктор:
+`constructor(container: HTMLElement)` - создает экземпляр базовой формы заказа
+
+Поля класса:
+`errorsContainer: HTMLSpanElement` - контейнер для отображения сообщений об ошибках
+
+Методы класса:
+`set errorValid(message: string)` - устанавливает текст сообщения об ошибках
+
+#### Класс FormOrderContact extends FormOrder
+Форма для ввода данных покупателя для связи.
+
+Конструктор:
+`constructor(container: HTMLElement, events: IEvents)` - создает экземпляр формы контактных данных
+
+Поля:
+`emailInput: HTMLInputElement` - поле ввода email
+`phoneInput: HTMLInputElement` - поле ввода телефона
+`buttonPay: HTMLButtonElement` - кнопка оплаты заказа
+
+Методы:
+`get email(): string` - возвращает значение email из поля ввода
+`get phone(): string` - возвращает значение телефона из поля ввода
+`buttonStatusPay(value: boolean): void` - активирует или деактивирует кнопку оплаты
+`set errorValid(error: string)` - устанавливает текст ошибки валидации 
+
+Генерируемые события:
+`modal:emailChange` - при изменении поля email
+`modal:phoneChange` - при изменении поля телефона
+`modal:pay` - при нажатии на кнопку оплаты
+
+#### Класс FormOrderSalary extends FormOrder
+Форма для выбора способа оплаты и указания адреса доставки.
+
+Конструктор:
+`constructor(container: HTMLElement, events: IEvents)` - создает экземпляр формы оплаты и адреса
+
+Поля класса:
+`paymentButtons: HTMLButtonElement[]` - массив кнопок выбора способа оплаты
+`addressInput: HTMLInputElement` - поле ввода адреса доставки
+`buttonNext: HTMLButtonElement` - кнопка перехода к следующему шагу
+
+Методы класса:
+`set selectedPayment(method: string)` - устанавливает выбранный способ оплаты.
+`get addressOrder(): string` - возвращает значение адреса из поля ввода.
+`statusButtonNext(value: boolean): void` - активирует или деактивирует кнопку "Далее"
+`set addressValid(error: string)` - устанавливает текст ошибки валидации
+
+Генерируемые события:
+`modal: selectPayMethod` - при выборе способа оплаты
+`modal: addressChange` - при изменении поля адреса
+`modal: toNext` - при нажатии на кнопку "Далее"
+
+### Cлой логики приложения Presenter
+Код Presenter в основном скрипте приложения main.ts
+
+### События
+События в приложении Веб-Ларёк
+Все события сведены в тип enum AppEvents для удобства сопровождения
+
+#### События в Моделях данных
+`products:changed` - изменение каталога товаров
+`card:select` - изменение выбранного для просмотра товара
+`basket:changed` - изменение содержимого корзины
+`buyer:changed` - изменение данных покупателя
+
+#### События в Представлениях
+`basket:open` - нажатие кнопки открытия корзины
+`modal:close` - закрыли модальное окно
+`basket:addProduct` - добавили товар в корзину
+`basket:removeProduct` - удалили товар из корзины
+`modalBasket:open` - нажали кнопку оформить товары
+`order:selectPayMethod` - изменился способ оплаты
+`order:addressChange` - изменился адрес покупателя
+`modalContact:open` - открыть форму для ввода контакта покупателя
+`order:emailChange` - изменился email покупателя
+`order:phoneChange` - изменился телефон покупателя
+`order:pay` - нажали кнопку Оплатить
+
+
