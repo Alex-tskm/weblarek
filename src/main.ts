@@ -301,7 +301,7 @@ events.on(AppEvents.order_selectPayMethod, (payMethod: PayMethodObj) => {
 
 // Изменился адрес покупателя
 events.on(AppEvents.order_addressChange, () => {
-  buyer.setAddress(formOrderSalary.addresOrder);
+  buyer.setAddress(formOrderSalary.addressOrder);
 });
 
 const containerFormContact = ensureElement<HTMLTemplateElement>('#contacts');

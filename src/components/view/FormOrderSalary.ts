@@ -62,7 +62,7 @@ export class FormOrderSalary extends FormOrder {
     });
   }
 
-  get addresOrder(): string {
+  get addressOrder(): string {
     return this.addressInput.value;
   }
 
