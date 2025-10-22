@@ -27,6 +27,7 @@ export class Basket extends Component<IBasket> {
       this.container
     );
 
+    // В вёрстке отсутствует класс пустой корзины. Создаём динамически
     this.clearBasket = createElement('p');
     this.clearBasket.innerHTML = 'Корзина пуста';    
 
