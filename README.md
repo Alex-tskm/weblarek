@@ -419,5 +419,5 @@ address: string;
 `order:emailChange` - изменился email покупателя
 `order:phoneChange` - изменился телефон покупателя
 `order:pay` - нажали кнопку Оплатить
-
+`product:select` - выбрали товар для просмотра 
 
