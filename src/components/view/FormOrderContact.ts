@@ -45,7 +45,7 @@ export class FormOrderContact extends FormOrder {
     return this.phoneInput.value;
   }
 
-  set Valid(error: string) {
+  set valid(error: string) {
     this.errorsContainer.textContent = error;
   }
 

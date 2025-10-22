@@ -27,11 +27,8 @@ export class Basket extends Component<IBasket> {
       this.container
     );
 
-    this.itemsBasket.style.overflow = 'auto';
-    this.itemsBasket.style.maxHeight = '40vh';
-
     this.clearBasket = createElement('p');
-    this.clearBasket.innerHTML = 'корзина пуста';
+    this.clearBasket.innerHTML = 'Корзина пуста';    
 
     this.buttonExecute.addEventListener('click', () => {
       this.events.emit(AppEvents.modalBasket_open);
@@ -51,11 +48,7 @@ export class Basket extends Component<IBasket> {
   }
 
   set deactivationBtn(value: boolean) {
-    if (value) {
-      this.buttonExecute.disabled = true;
-    } else {
-      this.buttonExecute.disabled = false;
-    }
+    this.buttonExecute.disabled = value;    
   }
 
   getEmptyBasket(): HTMLElement {

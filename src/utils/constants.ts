@@ -52,6 +52,7 @@ export enum AppEvents {
   order_emailChange = 'order:emailChange', // изменился email покупателя
   order_phoneChange = 'order:phoneChange', // изменился телефон покупателя
   order_pay = 'order:pay', // нажали кнопку Оплатить
+  product_select = 'product:select', // выбрали для просмотра товар
 };
 
 export const settings = {
